@@ -6,7 +6,7 @@ This script is hacked together and prbably has many bugs, however, it works for 
 
 ## Usage:
 
-1. Run `python parseJestToTest.py`
+1. Run `python parseJestToCSV.py`
 2. Input the path to your test file
 3. Input the name of the method from which you want to extract the tests.
 4. Input the name of the Output file (It would be easier if you attach .csv at the end of the output file name)
