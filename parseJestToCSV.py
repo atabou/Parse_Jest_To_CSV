@@ -1,7 +1,14 @@
 
+from personalValues import PROJECT_ID
+from personalValues import TEST_FILES
 
-filePath = input("Please input the file path: ")
-methodName = input("Please enter the method name: ")
+testPlanID = input("\nPlease input the parent test plan ID: ")
+
+for i in range( len(TEST_FILES) ):
+    print( "\n" + str(i) + " - " + TEST_FILES[i])
+
+filePath = TEST_FILES[ int(input("\nPlease choose the file path (int): ")) ]
+methodName = input("\nPlease enter the method name: ")
 
 print("\nOpening input file..")
 
@@ -21,7 +28,7 @@ Expecteds = []
 
 while line := fp.readline():
 
-    if ("test" in line) and ("async" in line):
+    if ("test(" in line) and ("() => {" in line):
 
         start_recording = False
 
@@ -44,25 +51,29 @@ while line := fp.readline():
     if ("let" in line) and (methodName in line):
         
         start_recording = False
-        fInput = ""
-        
+        fInput = "\""
+
         for letter in line:
             
             if letter == ")" and start_recording == True:
                 break
 
             if start_recording == True:
-                fInput += letter
+                if letter == "\"":
+                    fInput += "\"" + letter
+                else:
+                    fInput += letter
 
             if letter == "(" and start_recording == False:
                 start_recording = True
 
+        fInput += "\""
         Inputs.append(fInput)
 
     if ("expect" in line) and ("toBe" in line):
 
         start_recording = False
-        fExpected = ""
+        fExpected = "\""
 
         for i in range( len(line) ):
             
@@ -74,9 +85,12 @@ while line := fp.readline():
                 break
 
             if start_recording == True:
-                fExpected += line[i+5]
+                if line[i+5] == "\"":
+                    fExpected += "\"" + line[i+5]
+                else:
+                    fExpected += line[i+5]
 
-        
+        fExpected += "\""
         Expecteds.append(fExpected)
 
 print("Finished reading input file.\n")
@@ -93,8 +107,11 @@ except:
 
 print("Successfully opened output file.")
 
+op.write("Project,Entity Type,Name,TestPlan,Test Case Name,Test Step Description,Test Step Result\n")
+
 for i in range( len(Names) ):
-    op.write(Names[i] + "," + Inputs[i] + "," + Expecteds[i] + ",\n")
+    op.write(PROJECT_ID + "," + "TestCase" + "," + Names[i] + "," + testPlanID + ",,,\n" )
+    op.write(PROJECT_ID + "," + "TestStep" + ",,," + Names[i] + "," + Inputs[i] + "," + Expecteds[i] + "\n")
 
 print("Successfully wrote all data.")
 

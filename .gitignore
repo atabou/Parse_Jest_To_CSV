@@ -1,4 +1,8 @@
 # Byte-compiled / optimized / DLL files
+
+personalValues.py
+.vscode/
+
 __pycache__/
 *.py[cod]
 *$py.class
