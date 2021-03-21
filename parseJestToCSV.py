@@ -110,8 +110,8 @@ print("Successfully opened output file.")
 op.write("Project,Entity Type,Name,TestPlan,Test Case Name,Test Step Description,Test Step Result\n")
 
 for i in range( len(Names) ):
-    op.write(PROJECT_ID + "," + "TestCase" + "," + Names[i] + "," + testPlanID + ",,,\n" )
-    op.write(PROJECT_ID + "," + "TestStep" + ",,," + Names[i] + "," + Inputs[i] + "," + Expecteds[i] + "\n")
+    op.write(PROJECT_ID + "," + "TestCase" + "," + Names[i] + " (#" + testPlanID + ")" + "," + testPlanID + ",,,\n" )
+    op.write(PROJECT_ID + "," + "TestStep" + ",,," + Names[i] + " (#" + testPlanID + ")" + "," + Inputs[i] + "," + Expecteds[i] + "\n")
 
 print("Successfully wrote all data.")
 
