@@ -26,7 +26,38 @@ Names = []
 Inputs = []
 Expecteds = []
 
+start_func = False
+bracket = 0
+
+data = ""
+
 while line := fp.readline():
+
+    if ("describe(\"" + methodName + "\", async () => {" in line) or ("describe(\"" + methodName + "\", () => {" in line):
+        start_func = True
+        bracket = 1
+        continue
+
+    if start_func == True:
+
+        for letter in line:
+
+            if letter == "{":
+                bracket+=1
+            
+            if letter == "}":
+                bracket-=1
+
+            if bracket == 0:
+                break
+    
+            data += letter
+
+fp.close()
+
+functionLines = data.split("\n")
+
+for line in functionLines:
 
     if ("test(" in line) and ("() => {" in line):
 
@@ -94,8 +125,6 @@ while line := fp.readline():
         Expecteds.append(fExpected)
 
 print("Finished reading input file.\n")
-
-fp.close()
 
 outputPath = input("Please input output path: ")
 
